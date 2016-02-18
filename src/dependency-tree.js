@@ -16,7 +16,7 @@ var resolvePackage = (endpoint, pkg, ctx) => {
   return Promise.all([
     Promise.all(!pkg.dependencies || ctx.depth >= ctx.maxDepth ? [] :
       recurse(_, pkg, 'dependencies', ctx)),
-    Promise.all(!pkg.devDependencies || ctx.production ||
+    Promise.all(!pkg.devDependencies || ctx.production || ctx.depth > 0 ||
       ctx.depth >= ctx.maxDepth ? [] :
       recurse(_, pkg, 'devDependencies', ctx))
   ]).then(([dependencies, devDependencies]) => {
